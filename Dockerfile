@@ -23,7 +23,7 @@ RUN apt-get update && \
     libssl-dev texinfo liblz4-tool genext2fs
 
 # Install additional packages
-RUN apt-get install -y time
+RUN apt-get install -y time gcc-multilib
 
 # Install additional packages for building base debian system by ubuntu-build-service from linaro
 RUN apt-get install -y binfmt-support qemu-user-static live-build
