@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -xe
 
 if [ -x "$(command -v docker)" ]; then
     echo "Docker is installed and the execute permission is granted."
@@ -33,7 +33,10 @@ else
     sudo apt-get install -y binfmt-support
 fi
 
-DIRECTORY_PATH_TO_SOURCE="$(dirname $(dirname $(readlink -f $0)))"
+DIRECTORY_PATH_TO_DOCKER_BUILDER="$(dirname $(readlink -f $0))"
+echo "DIRECTORY_PATH_TO_DOCKER_BUILDER: $DIRECTORY_PATH_TO_DOCKER_BUILDER"
+
+DIRECTORY_PATH_TO_SOURCE="$(dirname $DIRECTORY_PATH_TO_DOCKER_BUILDER)"
 
 if [ $# -eq 0 ]; then
     echo "There is no directory path to the source provided."
@@ -46,14 +49,11 @@ else
     fi
 fi
 
-DOCKER_IMAGE="asus/tinker_edge_r-linux-builder:latest"
-#cp ~/.gitconfig gitconfig
-cp -r $DIRECTORY_PATH_TO_SOURCE/debian/ubuntu-build-service/packages $DIRECTORY_PATH_TO_SOURCE/docker_builder/.
+DOCKER_IMAGE="asus/builder-tinker_edge_r-debian:latest"
 docker build --build-arg userid=$(id -u) --build-arg groupid=$(id -g) --build-arg username=$(id -un) -t $DOCKER_IMAGE \
-    --file $DIRECTORY_PATH_TO_SOURCE/docker_builder/Dockerfile $DIRECTORY_PATH_TO_SOURCE/docker_builder
-rm -rf $DIRECTORY_PATH_TO_SOURCE/docker_builder/packages
+    --file $DIRECTORY_PATH_TO_DOCKER_BUILDER/Dockerfile $DIRECTORY_PATH_TO_DOCKER_BUILDER
 
-OPTIONS="--privileged --rm -it"
+OPTIONS="--interactive --privileged --rm --tty"
 OPTIONS+=" --volume $DIRECTORY_PATH_TO_SOURCE:/source"
 echo "Options to run docker: $OPTIONS"
 
