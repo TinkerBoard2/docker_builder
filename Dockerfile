@@ -10,7 +10,7 @@ ARG username
 RUN apt-get update && \
     apt-get install -y make gcc bc python libssl-dev liblz4-tool sudo time \
     qemu-user-static g++ patch wget cpio unzip rsync bzip2 perl gcc-multilib \
-    git kmod parted gdisk
+    git kmod parted gdisk udev
 
 RUN groupadd -g $groupid $username && \
     useradd -m -u $userid -g $groupid $username && \
