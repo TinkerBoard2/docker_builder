@@ -25,7 +25,8 @@ RUN apt-get update && \
 # Install additional packages
 RUN apt-get install -y time gcc-multilib
 
-RUN apt-get update && apt-get install -y expect patchelf
+# kmod: depmod is required by "make modules_install"
+RUN apt-get update && apt-get install -y kmod expect patchelf
 
 # Install additional packages for building base debian system by ubuntu-build-service from linaro
 RUN apt-get install -y binfmt-support qemu-user-static live-build
