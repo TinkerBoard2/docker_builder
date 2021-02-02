@@ -16,6 +16,8 @@ RUN apt-get install -y repo git ssh make gcc libssl-dev liblz4-tool expect g++ p
 # kmod: depmod is required by "make modules_install"
 RUN apt-get update && apt-get install -y kmod expect patchelf
 
+RUN apt-get update && apt-get install -y zip
+
 # Install additional packages for building base debian system by ubuntu-build-service from linaro
 RUN apt-get install -y binfmt-support qemu-user-static live-build
 RUN apt-get install -y bc time rsync
