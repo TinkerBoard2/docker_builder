@@ -22,10 +22,14 @@ RUN apt-get update && apt-get install -y zip mtools
 # Install additional packages for building base debian system by ubuntu-build-service from linaro
 RUN apt-get install -y binfmt-support qemu-user-static live-build
 RUN apt-get install -y bc time rsync
+RUN apt-get install -y zstd
+RUN apt-get update && apt-get install -y locales
 #RUN wget http://launchpadlibrarian.net/343927385/device-tree-compiler_1.4.5-3_amd64.deb
 RUN dpkg -i device-tree-compiler_1.4.7-4_amd64.deb
 RUN dpkg -i /packages/* || apt-get install -f -y
 RUN rm device-tree-compiler_1.4.7-4_amd64.deb
+
+RUN locale-gen en_US.UTF-8
 
 RUN groupadd -g $groupid $username && \
     useradd -m -u $userid -g $groupid $username && \
